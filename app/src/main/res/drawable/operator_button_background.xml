@@ -1,0 +1,9 @@
+<!-- res/drawable/operator_button_background.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#2196F3" /> <!-- Cambia este color al que desees -->
+            <corners android:radius="4dp" /> <!-- Opcional: redondea las esquinas -->
+        </shape>
+    </item>
+</selector>

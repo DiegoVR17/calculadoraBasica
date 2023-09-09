@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- En res/values/styles.xml -->
+    <style name="CalculatorButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">@drawable/button_background</item>
+        <item name="android:textColor">@android:color/holo_green_dark</item>
+    </style>
+
+    <!-- En res/values/styles.xml -->
+    <style name="CalculatorButton_Operator">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">@drawable/operator_button_background</item>
+        <item name="android:textColor">@android:color/holo_orange_dark</item>
+    </style>
+
+</resources>
