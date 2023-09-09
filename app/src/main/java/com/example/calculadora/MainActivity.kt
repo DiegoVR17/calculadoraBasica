@@ -3,6 +3,7 @@ package com.example.calculadora
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.TypedValue
 import android.widget.Toast
 import com.example.calculadora.databinding.ActivityMainBinding
 
@@ -124,6 +125,7 @@ class MainActivity : AppCompatActivity() {
             }
             mainActivityMainBinding.editTextOpera.setText(result.toString())
             mainActivityMainBinding.editTextOpera.setTextColor(Color.parseColor("#3DF73A"))
+            mainActivityMainBinding.editTextOpera.setTextSize(TypedValue.COMPLEX_UNIT_SP,35F)
         }
     }
 
@@ -132,6 +134,7 @@ class MainActivity : AppCompatActivity() {
         mainActivityMainBinding.editTextOpera.setText("")
         num1 = 0.0
         mainActivityMainBinding.editTextOpera.setTextColor(Color.parseColor("#111111"))
+        mainActivityMainBinding.editTextOpera.setTextSize(TypedValue.COMPLEX_UNIT_SP,25F)
     }
 
 }
