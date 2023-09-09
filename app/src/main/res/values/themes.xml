@@ -6,4 +6,12 @@
     </style>
 
     <style name="Theme.Calculadora" parent="Base.Theme.Calculadora" />
+
+    <style name="Theme.APISplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/green_mine</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/calculadora_icono</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="postSplashScreenTheme">@style/Base.Theme.Calculadora</item>
+    </style>
+
 </resources>
