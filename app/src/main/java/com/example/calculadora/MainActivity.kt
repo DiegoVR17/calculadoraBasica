@@ -1,140 +1,120 @@
 package com.example.calculadora
 
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.TypedValue
-import android.widget.Toast
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.calculadora.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
-    private var num1: Double = 0.0
-    private var operac: Int = 0
-    private var result: Double = 0.0
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var mainActivityMainBinding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         mainActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         val view = mainActivityMainBinding.root
         setContentView(view)
 
+        mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
+
+        val clearObserver = Observer<String>{clear ->
+            mainActivityMainBinding.editTextOpera.setText(clear)
+            mainActivityMainBinding.editTextResult.setText(clear)
+        }
+
+        mainViewModel.clear.observe(this,clearObserver)
+
+        val operatObserver = Observer<String>{operation ->
+            mainActivityMainBinding.editTextOpera.setText(operation)
+        }
+
+        mainViewModel.operation.observe(this,operatObserver)
+
+        val resultObserver = Observer<String>{result ->
+            mainActivityMainBinding.editTextResult.setText(result)
+        }
+
+        mainViewModel.result.observe(this,resultObserver)
+
+        val errorMsgObserver = Observer<String>{errorMsg ->
+            Snackbar.make(view,errorMsg, Snackbar.LENGTH_INDEFINITE)
+                .setAction("Continuar"){}
+                .show()
+        }
+
+        mainViewModel.errorMsg.observe(this,errorMsgObserver)
+
+        val errorMsg1Observer = Observer<String>{errorMsg ->
+            Snackbar.make(view,errorMsg, Snackbar.LENGTH_INDEFINITE)
+                .setAction("Continuar"){}
+                .show()
+        }
+
+        mainViewModel.errorMsg1.observe(this,errorMsg1Observer)
+
         mainActivityMainBinding.btn0.setOnClickListener {
-            writeOpera("0")
+            mainViewModel.writeOpera("0",mainActivityMainBinding.editTextOpera.text.toString())
         }
 
         mainActivityMainBinding.btn1.setOnClickListener {
-            writeOpera("1")
+            mainViewModel.writeOpera("1", mainActivityMainBinding.editTextOpera.text.toString())
         }
         mainActivityMainBinding.btn2.setOnClickListener {
-            writeOpera("2")
+            mainViewModel.writeOpera("2", mainActivityMainBinding.editTextOpera.text.toString())
         }
         mainActivityMainBinding.btn3.setOnClickListener {
-            writeOpera("3")
+            mainViewModel.writeOpera("3", mainActivityMainBinding.editTextOpera.text.toString())
         }
         mainActivityMainBinding.btn4.setOnClickListener {
-            writeOpera("4")
+            mainViewModel.writeOpera("4", mainActivityMainBinding.editTextOpera.text.toString())
         }
         mainActivityMainBinding.btn5.setOnClickListener {
-            writeOpera("5")
+            mainViewModel.writeOpera("5", mainActivityMainBinding.editTextOpera.text.toString())
         }
         mainActivityMainBinding.btn6.setOnClickListener {
-            writeOpera("6")
+            mainViewModel.writeOpera("6", mainActivityMainBinding.editTextOpera.text.toString())
         }
         mainActivityMainBinding.btn7.setOnClickListener {
-            writeOpera("7")
+            mainViewModel.writeOpera("7", mainActivityMainBinding.editTextOpera.text.toString())
         }
         mainActivityMainBinding.btn8.setOnClickListener {
-            writeOpera("8")
+            mainViewModel.writeOpera("8", mainActivityMainBinding.editTextOpera.text.toString())
         }
         mainActivityMainBinding.btn9.setOnClickListener {
-            writeOpera("9")
+            mainViewModel.writeOpera("9", mainActivityMainBinding.editTextOpera.text.toString())
         }
 
         mainActivityMainBinding.btnDecimal.setOnClickListener {
-            writeOpera(".")
+            mainViewModel.writeOpera(".", mainActivityMainBinding.editTextOpera.text.toString())
         }
 
         mainActivityMainBinding.btnAdd.setOnClickListener {
-            makeOpera("+")
-            operac = 1
+            mainViewModel.makeOpera("+", mainActivityMainBinding.editTextOpera.text.toString())
         }
 
         mainActivityMainBinding.btnSubtract.setOnClickListener {
-            makeOpera("-")
-            operac = 2
+            mainViewModel.makeOpera("-", mainActivityMainBinding.editTextOpera.text.toString())
         }
         mainActivityMainBinding.btnMultiply.setOnClickListener {
-            makeOpera("*")
-            operac = 3
+            mainViewModel.makeOpera("*", mainActivityMainBinding.editTextOpera.text.toString())
         }
 
         mainActivityMainBinding.btnDivide.setOnClickListener {
-            makeOpera("/")
-            operac = 4
+            mainViewModel.makeOpera("/", mainActivityMainBinding.editTextOpera.text.toString())
         }
 
         mainActivityMainBinding.btnClear.setOnClickListener {
-            clear()
+            mainViewModel.clear()
         }
 
         mainActivityMainBinding.btnResult.setOnClickListener {
-            getResult()
+            mainViewModel.getResult(mainActivityMainBinding.editTextOpera.text.toString(),
+                mainActivityMainBinding.editTextResult.text.toString())
         }
-    }
-
-    private fun writeOpera(valButton:String){
-        val valOpera = mainActivityMainBinding.editTextOpera.text.toString()
-        if (valOpera.isEmpty()) {
-            mainActivityMainBinding.editTextOpera.setText(valButton)
-        }
-        val textOpera = valOpera+valButton
-        mainActivityMainBinding.editTextOpera.setText(textOpera)
-    }
-
-    private fun makeOpera(valButton:String){
-        val valOpera = mainActivityMainBinding.editTextOpera.text.toString()
-        if (valOpera.isEmpty()) {
-            Toast.makeText(this,"Debe escribir un número a operar", Toast.LENGTH_SHORT).show()
-            return
-        }
-        else{
-            num1 = mainActivityMainBinding.editTextOpera.text.toString().toDouble()
-            val textResult = valOpera+valButton
-            mainActivityMainBinding.editTextResult.setText(textResult)
-            mainActivityMainBinding.editTextOpera.setText("")
-        }
-    }
-
-    private fun getResult() {
-        val valOpera = mainActivityMainBinding.editTextOpera.text.toString()
-        val valOpera1 = mainActivityMainBinding.editTextResult.text.toString()
-        if ((valOpera.isEmpty()) || (valOpera1.isEmpty())){
-            Toast.makeText(this,"Debe escribir un número a operar", Toast.LENGTH_SHORT).show()
-            return
-        }
-        else{
-            val expres = valOpera1 + valOpera
-            mainActivityMainBinding.editTextResult.setText(expres)
-            val num2 = valOpera.toDouble()
-            when(operac){
-                1 -> result = num1 + num2
-                2 -> result = num1 - num2
-                3 -> result = num1 * num2
-                4 -> result = num1 / num2
-            }
-            mainActivityMainBinding.editTextOpera.setText(result.toString())
-            mainActivityMainBinding.editTextOpera.setTextColor(Color.parseColor("#3DF73A"))
-            mainActivityMainBinding.editTextOpera.setTextSize(TypedValue.COMPLEX_UNIT_SP,35F)
-        }
-    }
-
-    private fun clear(){
-        mainActivityMainBinding.editTextResult.setText("")
-        mainActivityMainBinding.editTextOpera.setText("")
-        num1 = 0.0
-        mainActivityMainBinding.editTextOpera.setTextColor(Color.parseColor("#111111"))
-        mainActivityMainBinding.editTextOpera.setTextSize(TypedValue.COMPLEX_UNIT_SP,25F)
     }
 
 }
